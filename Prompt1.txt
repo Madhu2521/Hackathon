@@ -1,0 +1,126 @@
+Here’s the generated data for the meetings you listed, in the same format as your example:
+
+
+---
+
+Meeting ID: 1
+
+Title: All hands with Suchishree
+Start Time: 2025-04-24 15:00:00
+End Time: 2025-04-24 16:00:00
+Duration: 60
+Host Name: Suchishree
+Participants: John, Alice, Bob, Charlie, David, Hannah
+
+
+---
+
+Meeting ID: 2
+
+Title: Risk awareness session
+Start Time: 2025-04-23 11:30:00
+End Time: 2025-04-23 12:30:00
+Duration: 60
+Host Name: David
+Participants: Eve, Bob, Hannah, Charlie, Alice
+
+
+---
+
+Meeting ID: 3
+
+Title: GHRT Team recognition event
+Start Time: 2025-04-22 16:00:00
+End Time: 2025-04-22 17:15:00
+Duration: 75
+Host Name: Hannah
+Participants: John, Bob, Eve, Alice, Charlie
+
+
+---
+
+Meeting ID: 4
+
+Title: Leadership connect
+Start Time: 2025-04-25 10:00:00
+End Time: 2025-04-25 10:45:00
+Duration: 45
+Host Name: Charlie
+Participants: John, Hannah, David, Alice, Bob
+
+
+---
+
+Meeting ID: 5
+
+Title: Daily stand up
+Start Time: 2025-04-25 09:00:00
+End Time: 2025-04-25 09:15:00
+Duration: 15
+Host Name: Alice
+Participants: Bob, Charlie, David
+
+
+---
+
+Meeting ID: 6
+
+Title: Sprint kick off
+Start Time: 2025-04-22 14:00:00
+End Time: 2025-04-22 14:30:00
+Duration: 30
+Host Name: Bob
+Participants: Alice, Charlie, David, Hannah
+
+
+---
+
+Meeting ID: 7
+
+Title: Hackathon overview for 2024 batch
+Start Time: 2025-04-20 11:00:00
+End Time: 2025-04-20 12:00:00
+Duration: 60
+Host Name: Eve
+Participants: Alice, John, Charlie, Bob, Hannah
+
+
+---
+
+Meeting ID: 8
+
+Title: CG hackathon - Initial catch up.
+Start Time: 2025-04-25 12:19:42
+End Time: 2025-04-25 13:17:42
+Duration: 60
+Host Name: John
+Participants: Charlie, Bob, Alice, Eve, Hannah, David
+
+
+---
+
+Meeting ID: 9
+
+Title: EEDAT - Positive risk culture
+Start Time: 2025-04-23 13:00:00
+End Time: 2025-04-23 14:00:00
+Duration: 60
+Host Name: Charlie
+Participants: David, Eve, Hannah, Bob
+
+
+---
+
+Meeting ID: 10
+
+Title: Investment proofs submission FY 2024-2025
+Start Time: 2025-04-21 10:00:00
+End Time: 2025-04-21 10:30:00
+Duration: 30
+Host Name: Alice
+Participants: John, Charlie, Eve
+
+
+---
+
+Let me know if you'd like this exported to a file or displayed in a table/grid.
