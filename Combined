@@ -161,3 +161,16 @@ h1 {
   max-width: 250px;
 }
 </style>
+
+
+showAttendeesList = false;
+showTranscriptPanel = false;
+hoveredMeeting: Meeting | null = null;
+
+isPast(meetingTime: string): boolean {
+  return new Date(meetingTime).getTime() < new Date().getTime();
+}
+
+goToStats() {
+  console.log('Navigating to Statistics page...');
+}
