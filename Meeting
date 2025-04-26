@@ -1,0 +1,133 @@
+/* File: src/app/app.module.ts */
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MeetingsComponent } from './meetings/meetings.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MeetingsComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+/* File: src/app/app-routing.module.ts */
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MeetingsComponent } from './meetings/meetings.component';
+
+const routes: Routes = [
+  { path: 'meetings', component: MeetingsComponent },
+  { path: '', redirectTo: '/meetings', pathMatch: 'full' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+/* File: src/app/meetings/meetings.component.ts */
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-meetings',
+  templateUrl: './meetings.component.html',
+  styleUrls: ['./meetings.component.css']
+})
+export class MeetingsComponent {
+  meetings = [
+    { id: 1, title: 'Team Sync', time: '10:00 AM' },
+    { id: 2, title: 'Project Planning', time: '11:30 AM' },
+    { id: 3, title: 'Client Call', time: '2:00 PM' }
+  ];
+  hoveredMeetingId: number | null = null;
+
+  onHover(meetingId: number) {
+    this.hoveredMeetingId = meetingId;
+  }
+
+  onLeave() {
+    this.hoveredMeetingId = null;
+  }
+}
+
+
+/* File: src/app/meetings/meetings.component.html */
+
+<div class="meeting-list">
+  <div 
+    *ngFor="let meeting of meetings" 
+    class="meeting-item" 
+    (mouseenter)="onHover(meeting.id)" 
+    (mouseleave)="onLeave()">
+
+    <h3>{{ meeting.title }}</h3>
+
+    <div class="panel" *ngIf="hoveredMeetingId === meeting.id">
+      <p><strong>Time:</strong> {{ meeting.time }}</p>
+      <div class="icons">
+        <span title="Attendees">👥</span>
+        <span title="Transcript">📝</span>
+        <span title="Statistics">📊</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+/* File: src/app/meetings/meetings.component.css */
+
+.meeting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.meeting-item {
+  border: 1px solid #ccc;
+  padding: 16px;
+  position: relative;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
+.panel {
+  margin-top: 10px;
+  background: #e0f7fa;
+  padding: 10px;
+  border-radius: 8px;
+  animation: fadeIn 0.3s;
+}
+
+.icons {
+  display: flex;
+  gap: 10px;
+  font-size: 24px;
+  margin-top: 8px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* File: src/app/app.component.html */
+
+<router-outlet></router-outlet>
