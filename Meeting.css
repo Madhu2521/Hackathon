@@ -41,3 +41,46 @@
     }
   }
 }
+
+
+
+hjjnmm b ftxrcyvhb
+
+
+.meeting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+
+  .meeting-item {
+    position: relative;
+    background: #f5f5f5;
+    padding: 14px;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: #eaeaea;
+    }
+
+    .hover-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      min-width: 200px;
+
+      div {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
