@@ -1,0 +1,163 @@
+<div class="container">
+  <header class="logo-title">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <h1>Meeting Scheduler</h1>
+  </header>
+
+  <div class="main-layout">
+    <div class="left-panel">
+      <button
+        *ngFor="let meeting of meetings"
+        class="meeting-btn"
+        (mouseenter)="hoveredMeeting = meeting"
+        (mouseleave)="hoveredMeeting = null"
+      >
+        {{ meeting.title }}
+      </button>
+    </div>
+
+    <div class="right-panel" *ngIf="hoveredMeeting">
+      <div class="detail-box">
+        <h2>{{ hoveredMeeting.title }}</h2>
+
+        <div class="detail-item">
+          <i class="bi bi-clock"></i>
+          {{ hoveredMeeting.time | date:'short' }}
+        </div>
+
+        <div class="detail-item attendees-block"
+             (mouseenter)="showAttendeesList = true"
+             (mouseleave)="showAttendeesList = false">
+          <i class="bi bi-people-fill"></i> Attendees
+
+          <div class="dropdown attendees-dropdown" *ngIf="showAttendeesList">
+            <div *ngFor="let attendee of hoveredMeeting.attendees" class="attendee">
+              <div class="circle">{{ attendee[0] }}</div>
+              <span>{{ attendee }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-item transcript-block"
+             *ngIf="isPast(hoveredMeeting.time)"
+             (mouseenter)="showTranscriptPanel = true"
+             (mouseleave)="showTranscriptPanel = false">
+          <i class="bi bi-file-earmark-text"></i> Transcript
+
+          <div class="dropdown transcript-dropdown" *ngIf="showTranscriptPanel">
+            {{ hoveredMeeting.transcript || 'No transcript available.' }}
+          </div>
+        </div>
+
+        <div class="detail-item stat-block"
+             *ngIf="isPast(hoveredMeeting.time) && hoveredMeeting.transcript"
+             (click)="goToStats()">
+          <i class="bi bi-bar-chart-fill"></i> Statistics
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* SCSS */
+.container {
+  padding: 20px;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+.main-layout {
+  display: flex;
+}
+
+.left-panel {
+  width: 30%;
+  border-right: 1px solid #ccc;
+}
+
+.meeting-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.meeting-btn:hover {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.right-panel {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.detail-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background: #fafafa;
+  position: relative;
+}
+
+.detail-item {
+  margin: 10px 0;
+  position: relative;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 10;
+  width: 220px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.attendee {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.transcript-dropdown {
+  max-width: 250px;
+}
+</style>
