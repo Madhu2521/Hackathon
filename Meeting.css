@@ -1,0 +1,43 @@
+.meeting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+
+  .meeting-item {
+    position: relative;
+    background: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+
+    .hover-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 5px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .time {
+        font-weight: bold;
+      }
+
+      fa-icon {
+        font-size: 18px;
+        color: #333;
+      }
+    }
+  }
+}
