@@ -1,0 +1,158 @@
+/* statistics.component.html */
+<div class="statistics-container">
+  <div class="header">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <div class="meeting-details">
+      <h1>Weekly Connect</h1>
+      <p>{{ meeting.hostname }} | {{ meeting.date }} {{ meeting.startTime }} - {{ meeting.endTime }}</p>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="top-panels">
+      <div class="panel summary">
+        <h3>Summary</h3>
+        <p>* This panel displays the meeting summary</p>
+      </div>
+      <div class="panel agenda">
+        <h3>Meeting Agenda</h3>
+        <p>* This panel displays the meeting agenda</p>
+      </div>
+    </div>
+
+    <div class="panel sentiment">
+      <h3>Sentiment Analysis</h3>
+      <p>* This panel displays the sentiment analysis report (like graphs)</p>
+    </div>
+
+    <div class="panel drift">
+      <h3>Drift Found</h3>
+      <p>* This panel displays the drift found during the meeting</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Assume your image is inside src/assets/logo.png. Update the src if needed -->
+
+
+.statistics-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.meeting-info h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.meeting-info p {
+  margin: 5px 0 0 0;
+  color: gray;
+}
+
+.main-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.top-panels {
+  display: flex;
+  gap: 20px;
+}
+
+.panel {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  min-height: 150px;
+}
+
+.sentiment-panel, .drift-panel {
+  flex: 1;
+}
+
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-statistics',
+  templateUrl: './statistics.component.html',
+  styleUrls: ['./statistics.component.css']
+})
+export class StatisticsComponent implements OnInit {
+  meetingTitle: string = '';
+  hostname: string = '';
+  meetingDateTime: string = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    // Assuming you pass data while navigating
+    this.route.queryParams.subscribe(params => {
+      this.meetingTitle = params['title'] || 'Meeting Title';
+      this.hostname = params['host'] || 'Host Name';
+      this.meetingDateTime = params['datetime'] || 'Date & Time';
+    });
+  }
+}
+
+
+
+<!-- statistics.component.html -->
+
+<div class="statistics-page">
+  <!-- Top Section -->
+  <div class="top-bar">
+    <div class="logo">[Logo]</div>
+    <div class="meeting-info">
+      <h1>{{ meetingTitle }}</h1>
+      <p>{{ hostname }} | {{ meetingDateTime }}</p>
+    </div>
+  </div>
+
+  <!-- Main Body -->
+  <div class="main-panel">
+    <div class="top-panels">
+      <div class="panel summary-panel">
+        <h2>Summary</h2>
+        <p>* This panel displays the meeting summary</p>
+      </div>
+      <div class="panel agenda-panel">
+        <h2>Meeting Agenda</h2>
+        <p>* This panel displays the meeting agenda</p>
+      </div>
+    </div>
+
+    <div class="panel sentiment-panel">
+      <h2>Sentiment Analysis</h2>
+      <p>* This panel displays the sentiment analysis report (like graphs)</p>
+    </div>
+
+    <div class="panel drift-panel">
+      <h2>Drift Found</h2>
+      <p>* This panel displays the drift found during the meeting</p>
+    </div>
+  </div>
+</div>
