@@ -1,0 +1,111 @@
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+}
+
+.left-panel {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+}
+
+.meeting-btn {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.meeting-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.meeting-btn.active {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.right-panel {
+  flex: 1;
+  padding: 30px;
+  background-color: #fafafa;
+  position: relative;
+}
+
+.right-panel h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.hover-text {
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.attendees-wrapper {
+  margin-top: 20px;
+  position: relative;
+}
+
+.interactive-label {
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.attendee-list {
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.attendee {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.initials {
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.transcript-popup {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 300px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+strong {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 18px;
+}
