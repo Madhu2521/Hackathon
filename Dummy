@@ -1,0 +1,46 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'app-post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
+})
+export class PostComponent implements OnInit {
+  meetings: Meeting[] = [];
+  errorMsg = '';
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.http.get<Meeting[]>('https://your-api-url/api/meetings') // Replace with actual URL
+      .subscribe({
+        next: (data) => {
+          this.meetings = data;
+        },
+        error: (err) => {
+          this.errorMsg = 'Failed to load meetings';
+          console.error(err);
+        }
+      });
+  }
+}
+
+HTML
+
+<div *ngIf="meetings.length > 0; else noMeetings">
+  <div *ngFor="let meeting of meetings" class="meeting-card">
+    <h3>{{ meeting.Title }}</h3>
+    <p><strong>Host:</strong> {{ meeting.Host }}</p>
+    <p><strong>Start:</strong> {{ meeting.StartTime | date: 'full' }}</p>
+    <p><strong>End:</strong> {{ meeting.EndTime | date: 'shortTime' }}</p>
+    <p><strong>Duration:</strong> {{ meeting.Duration }} minutes</p>
+    <p><strong>Participants:</strong> {{ meeting.Participants }}</p>
+  </div>
+</div>
+
+<ng-template #noMeetings>
+  <p *ngIf="errorMsg">{{ errorMsg }}</p>
+  <p *ngIf="!errorMsg">Loading meetings...</p>
+</ng-template>
+
