@@ -1,0 +1,308 @@
+To build a complete .NET project that displays meeting details from an API in the UI, I recommend using Blazor Server for a fast, interactive UI integrated with your backend logic. Here's a full walkthrough with code and file structure:
+
+
+---
+
+1. Create the Project
+
+Open a terminal or Visual Studio and run:
+
+dotnet new blazorserver -n MeetingViewer
+cd MeetingViewer
+
+
+---
+
+2. Project Structure
+
+You’ll organize files as:
+
+MeetingViewer/
+│
+├── Models/
+│   └── Meeting.cs
+│
+├── Services/
+│   ├── IMeetingService.cs
+│   └── MeetingService.cs
+│
+├── Pages/
+│   └── Meetings.razor
+│
+├── wwwroot/
+│   └── css/site.css (optional styling)
+│
+└── Program.cs
+
+
+---
+
+3. Add the Meeting Model
+
+Models/Meeting.cs
+
+namespace MeetingViewer.Models;
+
+public class Meeting
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public DateTime ScheduledTime { get; set; }
+    public List<string> Attendees { get; set; } = new();
+}
+
+
+---
+
+4. Create the Service Layer
+
+Services/IMeetingService.cs
+
+using MeetingViewer.Models;
+
+namespace MeetingViewer.Services;
+
+public interface IMeetingService
+{
+    Task<List<Meeting>> GetMeetingsAsync();
+}
+
+Services/MeetingService.cs
+
+using System.Net.Http.Json;
+using MeetingViewer.Models;
+
+namespace MeetingViewer.Services;
+
+public class MeetingService : IMeetingService
+{
+    private readonly HttpClient _httpClient;
+
+    public MeetingService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task<List<Meeting>> GetMeetingsAsync()
+    {
+        return await _httpClient.GetFromJsonAsync<List<Meeting>>("https://your-api-url/api/meetings") 
+               ?? new List<Meeting>();
+    }
+}
+
+
+---
+
+5. Register Service in Program.cs
+
+Replace contents of Program.cs:
+
+using MeetingViewer.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddHttpClient<IMeetingService, MeetingService>(client =>
+{
+    client.BaseAddress = new Uri("https://your-api-url/");
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+}
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
+
+app.Run();
+
+
+---
+
+6. Create the Meetings UI Page
+
+Pages/Meetings.razor
+
+@page "/meetings"
+@inject IMeetingService MeetingService
+
+<h3>Upcoming Meetings</h3>
+
+@if (meetings == null)
+{
+    <p>Loading...</p>
+}
+else if (!meetings.Any())
+{
+    <p>No meetings found.</p>
+}
+else
+{
+    <ul class="meeting-list">
+        @foreach (var meeting in meetings)
+        {
+            <li>
+                <h4>@meeting.Title</h4>
+                <p>@meeting.ScheduledTime.ToString("f")</p>
+                <strong>Attendees:</strong>
+                <ul>
+                    @foreach (var person in meeting.Attendees)
+                    {
+                        <li>@person</li>
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<MeetingViewer.Models.Meeting>? meetings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetings = await MeetingService.GetMeetingsAsync();
+    }
+}
+
+
+---
+
+7. Add Navigation Link
+
+Edit Shared/NavMenu.razor and add:
+
+<NavLink class="nav-link" href="meetings">
+    <span class="oi oi-calendar"></span> Meetings
+</NavLink>
+
+
+---
+
+8. Run the App
+
+dotnet run
+
+Open https://localhost:5001/meetings
+
+
+---
+
+Would you like me to add fake API data (mock service) instead of calling a real endpoint?
+
+
+
+
+Thanks! Based on the updated API response format, I'll adjust the model, service, and Blazor page accordingly. The response consists of a list of meeting objects with slightly different field names and a string for participants.
+
+
+---
+
+1. Updated Model
+
+Models/Meeting.cs
+
+namespace MeetingViewer.Models;
+
+public class Meeting
+{
+    public int MeetingID { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
+    public int Duration { get; set; } // In minutes
+    public string Host { get; set; } = string.Empty;
+    public string Participants { get; set; } = string.Empty;
+
+    public List<string> ParticipantList =>
+        Participants.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                   .Select(p => p.Trim()).ToList();
+}
+
+
+---
+
+2. Updated Service Layer
+
+No change needed in MeetingService.cs, since the endpoint and JSON format are compatible with the new model.
+
+Just ensure you're pointing to the correct URL (https://your-api-url/api/meetings).
+
+
+---
+
+3. Updated Blazor Page
+
+Pages/Meetings.razor
+
+@page "/meetings"
+@inject IMeetingService MeetingService
+
+<h3>Meeting Schedule</h3>
+
+@if (meetings == null)
+{
+    <p>Loading...</p>
+}
+else if (!meetings.Any())
+{
+    <p>No meetings available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Host</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration (min)</th>
+                <th>Participants</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var meeting in meetings)
+            {
+                <tr>
+                    <td>@meeting.Title</td>
+                    <td>@meeting.Host</td>
+                    <td>@meeting.StartTime.ToString("g")</td>
+                    <td>@meeting.EndTime.ToString("g")</td>
+                    <td>@meeting.Duration</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var participant in meeting.ParticipantList)
+                            {
+                                <li>@participant</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MeetingViewer.Models.Meeting>? meetings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        meetings = await MeetingService.GetMeetingsAsync();
+    }
+}
+
+
+---
+
+Let me know if you want mock data (without real API calls) or a downloadable version of the full project folder.
