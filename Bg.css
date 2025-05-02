@@ -1,0 +1,76 @@
+To set an image as a background with **low opacity**, you typically use **CSS**. However, since `background-image` itself cannot have opacity directly, the best approach is to use a **semi-transparent overlay** or a pseudo-element.
+
+### Option 1: Using a separate `<div>` for the background
+
+```html
+<div class="background-container">
+  <div class="content">
+    <!-- Your content goes here -->
+    <h1>Hello World</h1>
+  </div>
+</div>
+```
+
+```css
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.background-container::before {
+  content: "";
+  background-image: url('your-image.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Set opacity here */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+```
+
+### Option 2: Image tag with absolute positioning (alternative method)
+
+```html
+<div class="wrapper">
+  <img src="your-image.jpg" class="bg-image" />
+  <div class="content">
+    <h2>Text on top</h2>
+  </div>
+</div>
+```
+
+```css
+.wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.bg-image {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+```
+
+Would you like this applied in Angular or React code as well?
