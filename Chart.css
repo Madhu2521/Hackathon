@@ -1,0 +1,56 @@
+.statistics-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.panel {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.panel.agenda,
+.panel-summary {
+  width: 48%;
+}
+
+.panel.agenda h3,
+.panel-summary h3,
+.panel.drift h3 {
+  margin-top: 0;
+}
+
+.agenda-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.agenda-list li {
+  margin-bottom: 8px;
+}
+
+.summary-text {
+  margin: 0;
+}
+
+.panel.drift {
+  margin-top: 24px;
+}
+
+.statistics-container > .row-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 4%;
+  margin-bottom: 24px;
+}
+
+canvas {
+  max-width: 100%;
+}
