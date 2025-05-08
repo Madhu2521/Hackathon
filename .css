@@ -117,3 +117,31 @@
   line-height: 1.5;
 }
 
+tool tip
+.stats-option {
+  position: relative;
+  display: inline-block;
+}
+
+.stats-option .tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  left: 110%;
+  top: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+
+.stats-option:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
