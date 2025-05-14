@@ -96,3 +96,166 @@ max-width: 260px !important;
 }
 
 Let me know if you'd like to animate the chart load or add icons to the message!
+
+
+Perfect! Here's how to enhance your Drift Analysis further by:
+
+* Animating the pie chart on load.
+* Changing on-topic color to green and off-topic to red.
+* Applying all styling and layout improvements.
+
+✅ 1. statistics.component.ts – Update chart color assignment:
+
+Assuming your API doesn’t provide colors or you want to override them manually after getting the data:
+
+Right after you set this.drift = data.Drift || null, add:
+
+if (this.drift?.pie?.dataset?.\[0]) {
+this.drift.pie.dataset\[0].backgroundColor = \['#FF4B4B', '#4CAF50']; // red for off-topic, green for on-topic
+}
+
+✅ 2. statistics.component.html:
+
+<div class="panel drift">
+  <h3>DRIFT ANALYSIS</h3>
+  <div class="drift-content">
+    <div class="drift-chart">
+      <canvas baseChart
+        [data]="{ labels: drift?.pie?.labels, datasets: drift?.pie?.dataset }"
+        [type]="'pie'"
+        [options]="{ animation: { animateRotate: true, duration: 1000 } }">
+      </canvas>
+    </div>
+    <div class="drift-message">
+      <div *ngIf="showDriftMessage; else noDrift" class="drift-warning">
+        <p>
+          There was a <strong>significant drift</strong> in this meeting as
+          <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+          of the discussion was off-topic, drifting past the agenda.
+        </p>
+      </div>
+      <ng-template #noDrift>
+        <div class="drift-success">
+          <p>
+            The meeting went well, with only
+            <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+            off-topic discussion. The agenda was mostly followed.
+          </p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+✅ 3. statistics.component.css (full set):
+
+.panel.drift {
+background: #fff;
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+margin-top: 20px;
+}
+
+.drift-content {
+display: flex;
+gap: 24px;
+align-items: flex-start;
+flex-wrap: wrap;
+}
+
+.drift-chart {
+width: 260px;
+max-width: 100%;
+}
+
+.drift-message {
+flex: 1;
+min-width: 250px;
+}
+
+.drift-warning, .drift-success {
+border-radius: 12px;
+padding: 16px;
+font-size: 0.95rem;
+line-height: 1.6;
+box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+animation: fadeIn 0.8s ease-in-out;
+}
+
+.drift-warning {
+background-color: #ffe5e5;
+color: #a30000;
+border-left: 4px solid #ff4b4b;
+}
+
+.drift-success {
+background-color: #e7fbe7;
+color: #215d25;
+border-left: 4px solid #4CAF50;
+}
+
+.drift-percentage {
+font-weight: 600;
+color: #000;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+\::ng-deep canvas {
+max-height: 240px !important;
+max-width: 240px !important;
+}
+
+Let me know if you'd like a small icon or emoji added to the drift/success messages for visual appeal!
+
+
+Great! Adding visual icons or emojis helps communicate status quickly. Here's how you can enhance the drift messages with icons:
+
+🎯 Updated statistics.component.html with icons:
+
+<div class="panel drift">
+  <h3>DRIFT ANALYSIS</h3>
+  <div class="drift-content">
+    <div class="drift-chart">
+      <canvas baseChart
+        [data]="{ labels: drift?.pie?.labels, datasets: drift?.pie?.dataset }"
+        [type]="'pie'"
+        [options]="{ animation: { animateRotate: true, duration: 1000 } }">
+      </canvas>
+    </div>
+    <div class="drift-message">
+      <div *ngIf="showDriftMessage; else noDrift" class="drift-warning">
+        <p>
+          <span class="drift-icon">⚠️</span>
+          There was a <strong>significant drift</strong> in this meeting as
+          <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+          of the discussion was off-topic, drifting past the agenda.
+        </p>
+      </div>
+      <ng-template #noDrift>
+        <div class="drift-success">
+          <p>
+            <span class="drift-icon">✅</span>
+            The meeting went well, with only
+            <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+            off-topic discussion. The agenda was mostly followed.
+          </p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+🎨 CSS (append to statistics.component.css):
+
+.drift-icon {
+font-size: 1.2rem;
+margin-right: 6px;
+vertical-align: middle;
+}
+
+You can use different emojis if you'd like (e.g., 🚨 instead of ⚠️, or 👍 instead of ✅). Let me know if you want a more formal look with SVG icons instead of emojis!
