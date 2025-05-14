@@ -1,0 +1,98 @@
+Thanks for the photo! To enhance the visual appearance of your Drift Analysis panel, we’ll:
+
+✅ Improve the layout by placing the pie chart and message side-by-side using a flex layout.
+✅ Reduce the pie chart size.
+✅ Style the message box with better padding, colors, and alignment.
+✅ Apply consistent spacing and typography.
+
+Here’s the updated HTML and CSS.
+
+✅ statistics.component.html (Drift Panel Section):
+
+<div class="panel drift">
+  <h3>DRIFT ANALYSIS</h3>
+  <div class="drift-content">
+    <div class="drift-chart">
+      <canvas baseChart
+        [data]="{ labels: drift?.pie?.labels, datasets: drift?.pie?.dataset }"
+        [type]="'pie'">
+      </canvas>
+    </div>
+    <div class="drift-message">
+      <div *ngIf="showDriftMessage; else noDrift" class="drift-warning">
+        <p>
+          There was a <strong>significant drift</strong> in this meeting as
+          <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+          of the discussion was off-topic, drifting past the agenda.
+        </p>
+      </div>
+      <ng-template #noDrift>
+        <div class="drift-success">
+          <p>
+            The meeting went well, with only
+            <span class="drift-percentage">{{ offTopicPercentage | number:'1.0-2' }}%</span>
+            off-topic discussion. The agenda was mostly followed.
+          </p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+✅ statistics.component.css (New styles to add):
+
+.panel.drift {
+background: #fff;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.drift-content {
+display: flex;
+gap: 20px;
+align-items: center;
+flex-wrap: wrap;
+}
+
+.drift-chart {
+width: 280px;
+max-width: 100%;
+}
+
+.drift-message {
+flex: 1;
+min-width: 250px;
+}
+
+.drift-warning, .drift-success {
+border-radius: 10px;
+padding: 15px;
+font-size: 0.95rem;
+line-height: 1.5;
+box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.drift-warning {
+background-color: #ffe5e5;
+color: #a30000;
+}
+
+.drift-success {
+background-color: #e7fbe7;
+color: #215d25;
+}
+
+.drift-percentage {
+font-weight: bold;
+color: #333;
+}
+
+✅ Optional: Reduce the canvas chart radius with CSS override (if needed):
+
+\::ng-deep canvas {
+max-height: 260px !important;
+max-width: 260px !important;
+}
+
+Let me know if you'd like to animate the chart load or add icons to the message!
