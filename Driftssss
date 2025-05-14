@@ -1,0 +1,43 @@
+Absolutely! You can enhance your existing HTML by adding an else condition to show a positive message when off-topic discussion is 50% or less.
+
+✅ Updated block in statistics.component.html:
+
+<div class="panel drift">
+  <h3>DRIFT ANALYSIS</h3>
+  <div class="chart-wrapper">
+    <canvas baseChart
+      [data]="{ labels: drift?.pie?.labels, datasets: drift?.pie?.dataset }"
+      [type]="'pie'">
+    </canvas>
+  </div>
+
+  <div *ngIf="drift">
+    <div *ngIf="showDriftMessage; else noDrift" class="drift-warning">
+      <p>
+        There was a significant drift seen in this meeting as
+        {{ offTopicPercentage | number:'1.0-2' }}% of the discussion was off-topic,
+        drifting past the agenda.
+      </p>
+    </div>
+    <ng-template #noDrift>
+      <div class="drift-success">
+        <p>
+          The meeting went well, with only
+          {{ offTopicPercentage | number:'1.0-2' }}% off-topic discussion. The agenda was mostly followed.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+✅ Optional CSS for success message (in statistics.component.css):
+
+.drift-success {
+background-color: #e7fbe7;
+color: #225d22;
+padding: 10px;
+margin-top: 10px;
+border-radius: 8px;
+}
+
+Let me know if you want to customize the messages further based on meeting titles or time durations.
