@@ -1,0 +1,75 @@
+Absolutely! Below is the full updated statistics.component.ts file with the additions placed precisely in context — so you can just copy and paste.
+
+✅ Here's your updated statistics.component.ts with driftedTexts logic included:
+
+typescript
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import { MeetingService } from '../Service/meeting.services';
+
+@Component({
+selector: 'app-statistics',
+templateUrl: './statistics.component.html',
+styleUrls: \['./statistics.component.css']
+})
+export class Statisticscomponent implements OnInit {
+agenda: any\[] = \[];
+drift: any = null;
+statisticsData: any;
+meetingData: any;
+offTopicPercentage: number = 0;
+showDriftMessage: boolean = false;
+driftedTexts: string\[] = \[];
+
+constructor(private route: ActivatedRoute, private meetingService: MeetingService) {}
+
+ngOnInit(): void {
+const meetingId = this.route.snapshot.paramMap.get('id');
+console.log('Meeting ID from route:', meetingId);
+
+```
+if (meetingId) {
+  this.meetingService.getMeeting(meetingId).subscribe(data => {
+    this.meetingData = data;
+  });
+
+  this.meetingService.getstatistics(meetingId).subscribe(data => {
+    this.agenda = data.Agenda || [];
+    this.statisticsData = data;
+    this.drift = data.Drift || null;
+
+    if (this.drift?.pie?.dataset?.[0]?.data) {
+      const [offTopic, onTopic] = this.drift.pie.dataset[0].data;
+      const total = offTopic + onTopic;
+      this.offTopicPercentage = total > 0 ? (offTopic / total) * 100 : 0;
+      this.showDriftMessage = this.offTopicPercentage > 50;
+
+      // Update colors: red for off-topic, green for on-topic
+      this.drift.pie.dataset[0].backgroundColor = ['#FF4B4B', '#4CAF50'];
+    }
+
+    // Extract drifted texts, skipping empty or whitespace-only ones
+    this.driftedTexts = (this.drift?.drifts || [])
+      .filter((item: any) => item.drifted && item.text?.trim()?.length > 0)
+      .map((item: any) => item.text.trim());
+
+    console.log('Fetched statistics:', data);
+  });
+}
+```
+
+}
+
+formatTime(dateTime: string): string {
+const date = new Date(dateTime);
+return date.toLocaleDateString(\[], { hour: '2-digit', minute: '2-digit' });
+}
+
+redirect() {
+window\.location.href = '[http://localhost:8501](http://localhost:8501)';
+}
+}
+
+Let me know if you'd also like a downloadable JSON or export button for the drifted texts or further formatting logic (like bolding keywords in those texts).
