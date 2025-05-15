@@ -1,0 +1,79 @@
+Perfect. Based on your API structure and existing Drift panel, here's how to:
+
+* Display drifted texts (where drifted: true).
+* Add a nice heading.
+* Match it visually with your current Drift panel layout.
+* Keep logic in .ts and clean design in HTML + CSS.
+
+✅ 1. In statistics.component.ts:
+
+At the end of this block in ngOnInit (right after you assign this.drift):
+
+if (this.drift?.pie?.dataset?.\[0]) {
+this.drift.pie.dataset\[0].backgroundColor = \['#FF4B4B', '#4CAF50'];
+}
+
+// Extract drifted texts
+this.driftedTexts = (this.drift?.drifts || \[])
+.filter((item: any) => item.drifted)
+.map((item: any) => item.text);
+
+✅ Add this variable in class declaration:
+
+driftedTexts: string\[] = \[];
+
+✅ 2. In statistics.component.html – below drift message:
+
+Place this just below the drift-message div inside <div class="drift-message">:
+
+<div *ngIf="driftedTexts.length > 0" class="drifted-section">
+  <h4><span class="drift-icon">🗣️</span>Drifted dialogues</h4>
+  <ul class="drifted-texts">
+    <li *ngFor="let text of driftedTexts">“{{ text }}”</li>
+  </ul>
+</div>
+
+✅ 3. In statistics.component.css:
+
+Add this at the bottom:
+
+.drifted-section {
+margin-top: 16px;
+padding: 12px;
+background-color: #f9f9ff;
+border-radius: 10px;
+border-left: 4px solid #ffc107;
+box-shadow: inset 0 0 5px rgba(0,0,0,0.04);
+}
+
+.drifted-section h4 {
+font-size: 1rem;
+font-weight: 600;
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.drifted-texts {
+list-style: disc inside;
+padding-left: 10px;
+margin: 0;
+font-size: 0.92rem;
+color: #333;
+}
+
+.drifted-texts li {
+margin-bottom: 4px;
+}
+
+.drift-icon {
+font-size: 1.1rem;
+}
+
+That’s it. You’ll now see:
+
+* The warning/success drift message.
+* Then, if applicable, a nice bordered section with all drifted dialogue texts.
+
+Let me know if you'd like those texts expandable/collapsible or clickable to zoom.
